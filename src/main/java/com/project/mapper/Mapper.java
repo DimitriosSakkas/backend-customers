@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Mapper {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public Mapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public CustomerDAO convertDtoToDao(CustomerDTO customerDTO, int id) {
         CustomerDAO dao = new CustomerDAO();

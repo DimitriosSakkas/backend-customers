@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import com.project.base.exception.CustomBadCredentialsException;
 import com.project.model.dao.CustomerDAO;
 import com.project.model.dto.CustomerDTO;
 import com.project.model.dto.JwtAuthenticationResponse;
@@ -11,7 +12,6 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +39,6 @@ public class CustomerController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "hello";
-    }
-
     @PostMapping("/authenticate")
     public ResponseEntity<JwtAuthenticationResponse> authenticateCustomer(
         @Valid @RequestBody CustomerDTO customerDTO) {
@@ -53,9 +48,8 @@ public class CustomerController {
             final String jwtToken = authorizationUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken, "Bearer"));
         } else {
-            throw new BadCredentialsException("Bad credentials");
+            throw new CustomBadCredentialsException();
         }
-
     }
 
     @PutMapping("/update")
