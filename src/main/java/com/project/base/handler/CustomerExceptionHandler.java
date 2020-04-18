@@ -2,6 +2,7 @@ package com.project.base.handler;
 
 import com.project.base.definition.ApiError;
 import com.project.base.definition.ApiErrorDefinitions;
+import com.project.base.exception.CustomBadCredentialsException;
 import com.project.base.exception.CustomUsernameNotFoundException;
 import com.project.base.exception.CustomerNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -31,17 +32,24 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ApiError> handleCustomerNotFound(CustomerNotFoundException ex) {
         log.error(ex.getMessage());
-        ApiError error = new ApiError();
-        apiErrorDefinitions.customerNotFoundApiErrorObject();
+        ApiError error = apiErrorDefinitions.customerNotFoundApiErrorObject();
         return new ResponseEntity<>(error, headers, HttpStatus.NOT_FOUND);
     }
 
     @ResponseBody
     @ExceptionHandler(CustomUsernameNotFoundException.class)
-    public ResponseEntity<ApiError> handleUserNameNotFound(CustomUsernameNotFoundException ex) {
+    public ResponseEntity<ApiError> handleCustomBadCredentialsException(
+        CustomBadCredentialsException ex) {
         log.error(ex.getMessage());
-        ApiError error = new ApiError();
-        apiErrorDefinitions.customUserNameNotFoundApiErrorObject();
+        ApiError error = apiErrorDefinitions.customBadCredentialsApiErrorObject();
+        return new ResponseEntity<>(error, headers, HttpStatus.FORBIDDEN);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(CustomBadCredentialsException.class)
+    public ResponseEntity<ApiError> handleUserNameNotFound(CustomBadCredentialsException ex) {
+        log.error(ex.getMessage());
+        ApiError error = apiErrorDefinitions.customUserNameNotFoundApiErrorObject();
         return new ResponseEntity<>(error, headers, HttpStatus.NOT_FOUND);
     }
 

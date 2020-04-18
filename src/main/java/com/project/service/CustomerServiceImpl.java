@@ -1,6 +1,5 @@
 package com.project.service;
 
-import com.project.base.exception.CustomerNotFoundException;
 import com.project.mapper.Mapper;
 import com.project.model.dao.CustomerDAO;
 import com.project.model.dto.CustomerDTO;
@@ -36,19 +35,18 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDAO updateCustomer(Principal principal, CustomerDTO customerDTO) {
         Optional<CustomerDAO> customerDAO = customerRepository
             .findCustomerDAOByUserName(principal.getName());
-        CustomerDAO dao = customerDAO.orElseThrow(CustomerNotFoundException::new);
+        // CustomerDAO dao = customerDAO.orElseThrow(CustomerNotFoundException::new);
         customerRepository.deleteCustomerDAOByUserName(principal.getName());
         return customerRepository
-            .save(mapper.convertDtoToDao(customerDTO, dao.getId()));
+            .save(mapper.convertDtoToDao(customerDTO, customerDAO.get().getId()));
     }
 
 
     @Override
     public List<CustomerDAO> retrieveCustomerList() {
-        customerRepository.findAll()
-            .forEach((s) -> log.info(s.getUserName() + ", " + s.getDateOfBirth()));
         Pageable paging = PageRequest.of(0, 3, Sort.by("dateOfBirth").descending());
         Page<CustomerDAO> pagedResult = customerRepository.findAll(paging);
+        pagedResult.forEach((dao) -> log.info("Customer:  {}", dao));
         return pagedResult.getContent();
     }
 }

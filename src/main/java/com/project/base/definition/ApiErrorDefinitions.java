@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 public class ApiErrorDefinitions {
 
     private static final String NOT_FOUND = "NOT_FOUND";
+    private static final String FORBIDDEN = "FORBIDDEN";
 
     public ApiError customerNotFoundApiErrorObject() {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.NOT_FOUND.value());
         error.setTitle(NOT_FOUND);
-        error.setDetail("No such customer exists!");
+        error.setDetail("Username does not exist!");
         return error;
     }
 
@@ -22,7 +23,15 @@ public class ApiErrorDefinitions {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.NOT_FOUND.value());
         error.setTitle(NOT_FOUND);
-        error.setDetail("No such username exists!");
+        error.setDetail("No customer with this username!");
+        return error;
+    }
+
+    public ApiError customBadCredentialsApiErrorObject() {
+        ApiError error = new ApiError();
+        error.setStatus(HttpStatus.FORBIDDEN.value());
+        error.setTitle(FORBIDDEN);
+        error.setDetail("The credentials are invalid!");
         return error;
     }
 }
