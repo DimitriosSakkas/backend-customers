@@ -24,5 +24,6 @@ public class CustomerDAO {
     private String lastName;
     @JsonProperty("dateofbirht")
     private Date dateOfBirth;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 }

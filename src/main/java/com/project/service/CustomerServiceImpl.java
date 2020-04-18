@@ -44,9 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDAO> retrieveCustomerList() {
+        customerRepository.findAll().forEach(customerDAO -> log.info("customer: {}", customerDAO));
         Pageable paging = PageRequest.of(0, 3, Sort.by("dateOfBirth").descending());
         Page<CustomerDAO> pagedResult = customerRepository.findAll(paging);
-        pagedResult.forEach((dao) -> log.info("Customer:  {}", dao));
         return pagedResult.getContent();
     }
 }

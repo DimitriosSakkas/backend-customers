@@ -1,5 +1,6 @@
 package com.project.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import lombok.AllArgsConstructor;
