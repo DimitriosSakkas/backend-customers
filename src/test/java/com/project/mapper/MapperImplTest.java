@@ -11,21 +11,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-class MapperTest {
+class MapperImplTest {
 
-    private Mapper mapper;
+    @InjectMocks
+    private MapperImpl mapper;
     @Mock
     private PasswordEncoder passwordEncoder;
     private CustomerDAOMock customerDAOMock;
 
     @BeforeEach
     void setup() {
-        mapper = new Mapper(passwordEncoder);
         customerDAOMock = new CustomerDAOMock();
     }
 
