@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CustomerNotFoundException extends RuntimeException {
 
     public CustomerNotFoundException() {
-        super("Username does not exist!");
+        super("username does not exist!");
     }
 
 }

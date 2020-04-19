@@ -5,6 +5,7 @@ import com.project.base.definition.ApiErrorDefinitions;
 import com.project.base.exception.CustomBadCredentialsException;
 import com.project.base.exception.CustomUsernameNotFoundException;
 import com.project.base.exception.CustomerNotFoundException;
+import com.project.base.exception.UsernameIsTakenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,7 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ApiError> handleCustomerNotFound(CustomerNotFoundException ex) {
         log.error(ex.getMessage());
-        ApiError error = apiErrorDefinitions.customerNotFoundApiErrorObject();
+        ApiError error = apiErrorDefinitions.customerNotFoundApiErrorObject(ex);
         return new ResponseEntity<>(error, headers, HttpStatus.NOT_FOUND);
     }
 
@@ -41,7 +42,7 @@ public class CustomerExceptionHandler {
     public ResponseEntity<ApiError> handleCustomBadCredentialsException(
         CustomBadCredentialsException ex) {
         log.error(ex.getMessage());
-        ApiError error = apiErrorDefinitions.customBadCredentialsApiErrorObject();
+        ApiError error = apiErrorDefinitions.customUserNameNotFoundApiErrorObject(ex);
         return new ResponseEntity<>(error, headers, HttpStatus.FORBIDDEN);
     }
 
@@ -49,8 +50,15 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(CustomBadCredentialsException.class)
     public ResponseEntity<ApiError> handleUserNameNotFound(CustomBadCredentialsException ex) {
         log.error(ex.getMessage());
-        ApiError error = apiErrorDefinitions.customUserNameNotFoundApiErrorObject();
+        ApiError error = apiErrorDefinitions.customUserNameNotFoundApiErrorObject(ex);
         return new ResponseEntity<>(error, headers, HttpStatus.NOT_FOUND);
     }
 
+    @ResponseBody
+    @ExceptionHandler(UsernameIsTakenException.class)
+    public ResponseEntity<ApiError> handleUserNameNotFound(UsernameIsTakenException ex) {
+        log.error(ex.getMessage());
+        ApiError error = apiErrorDefinitions.usernameIsTakenExceptionApiErrorObject(ex);
+        return new ResponseEntity<>(error, headers, HttpStatus.NOT_FOUND);
+    }
 }

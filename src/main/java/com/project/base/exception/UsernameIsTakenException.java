@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
-public class CustomBadCredentialsException extends RuntimeException {
+public class UsernameIsTakenException extends RuntimeException {
 
-    public CustomBadCredentialsException() {
-        super("bad credential");
+    public UsernameIsTakenException() {
+        super("this username is already in use!");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.project.service;
 
+import com.project.base.exception.UsernameIsTakenException;
 import com.project.mapper.Mapper;
 import com.project.model.dao.CustomerDAO;
 import com.project.model.dto.CustomerDTO;
@@ -33,6 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public CustomerDAO updateCustomer(Principal principal, CustomerDTO customerDTO) {
         log.info("find the customer to update his data");
+        if (customerRepository.existsCustomerDAOByUserName(customerDTO.getUserName())) {
+            throw new UsernameIsTakenException();
+        }
         Optional<CustomerDAO> customerDAO = customerRepository
             .findCustomerDAOByUserName(principal.getName());
         customerRepository.deleteCustomerDAOByUserName(principal.getName());

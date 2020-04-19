@@ -2,6 +2,7 @@ package com.project.controller;
 
 import com.project.base.exception.CustomBadCredentialsException;
 import com.project.model.dao.CustomerDAO;
+import com.project.model.dto.CredentialsDTO;
 import com.project.model.dto.CustomerDTO;
 import com.project.model.dto.JwtAuthenticationResponse;
 import com.project.service.CustomerDetailsService;
@@ -43,10 +44,10 @@ public class CustomerController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<JwtAuthenticationResponse> authenticateCustomer(
-        @Valid @RequestBody CustomerDTO customerDTO) {
+        @Valid @RequestBody CredentialsDTO dto) {
         final UserDetails userDetails = customerDetailsService
-            .loadUserByUsername(customerDTO.getUserName());
-        if (passwordEncoder.matches(customerDTO.getPassword(), userDetails.getPassword())) {
+            .loadUserByUsername(dto.getUserName());
+        if (passwordEncoder.matches(dto.getPassword(), userDetails.getPassword())) {
             final String jwtToken = authorizationUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken, "Bearer"));
         } else {
@@ -56,9 +57,10 @@ public class CustomerController {
 
     @PutMapping("/update")
     public ResponseEntity<CustomerDAO> updateCustomer(
-        @Valid @RequestBody CustomerDTO customerDTO, Principal principal) {
+        @Valid @RequestBody CustomerDTO dto, Principal principal) {
+        CustomerDAO dao = customerService.updateCustomer(principal, dto);
         log.info("customer's data have been updated");
-        return ResponseEntity.ok(customerService.updateCustomer(principal, customerDTO));
+        return ResponseEntity.ok(dao);
     }
 
     @GetMapping("/customers")

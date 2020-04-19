@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CustomUsernameNotFoundException extends RuntimeException {
 
     public CustomUsernameNotFoundException() {
-        super("The credentials are invalid!");
+        super("the credentials are invalid!");
     }
 
 }

@@ -8,5 +8,7 @@ public interface CustomerRepository extends PagingAndSortingRepository<CustomerD
 
     Optional<CustomerDAO> findCustomerDAOByUserName(String userName);
 
+    boolean existsCustomerDAOByUserName(String userName);
+
     void deleteCustomerDAOByUserName(String userName);
 }
