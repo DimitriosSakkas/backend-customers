@@ -8,7 +8,7 @@ For this project Java 8 is required.
 
 ## Building
 
-Since this is a maven project, Maven Wrapper plugin is available if maven is not installed on the system. To build the project, the following command from the root  directorym must be executed:
+Since this is a maven project, Maven Wrapper plugin is available if maven is not installed on the system. To build the project, the following command from the root  directory must be executed:
 ```bash
 mvn clean package
 ```
@@ -21,10 +21,9 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8085
 
 ## Descripton 
 The application exposes 3 endpoints.
-- The first endpoint is for authorizing a customer with  a valid JWT token after validation 
-his credential, e.g., *localhost:8080/authenticate*
-- The second endpoint is for updating and retrieving customer's data. By sending JWT token 
-it is specified which customer' data has to be updated, e.g., *localhost:8080/update* 
+- The first endpoint is for authorizing a customer with a 7 days valid JWT token after validation 
+his credential, e.g., *localhost:8080/authenticate*. 
+- The second endpoint is for updating and retrieving customer's data. The access token defines whose customer' data will be updates. The new data are included in request body. , e.g., *localhost:8080/update* 
 - The third endpoint is for retrieving 3 customers ordered by date of birth in ascending order,
 e.g., *localhost:8080/customers*
 
@@ -64,7 +63,7 @@ curl --location --request PUT 'localhost:8080/update' \
 }'
 ```
 
-### Retrieve access token
+### Retrieve the access token
 To call the first endpoint a post request is sent with the following request body:
 ```json
 {
@@ -72,15 +71,17 @@ To call the first endpoint a post request is sent with the following request bod
     "password": "7"
 }
 ```
-This will return the access token in this case for the customer with usename helloween1.
+This will return the access token in this case for the customer with the usename *helloween1*.
 
 ### Retrieve 3 customers
 
-After having an access token, it can be used as a  authorization header to call the second endpoint, *localhost:8080/customers*, which will return 3 customers by their age in descending order.
+After having an access token, the second endpoint can be called with an authorization header which includes the access token, 
+*localhost:8080/customers*. Three customers will be displayed ordered by their age in descending order.
 
 ### Update customer's data
 
-To updare customer's data, the third endpoind must be called, *PUT localhost8080/:update*. The request body is the following 
+The third endpoind is for updating customer's data, *PUT localhost8080/:update*. 
+An example of the request body which is required is the following:
 
 ```json
 {
