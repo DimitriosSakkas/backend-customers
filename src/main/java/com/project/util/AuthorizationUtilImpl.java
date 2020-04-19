@@ -59,7 +59,7 @@ public class AuthorizationUtilImpl implements AuthorizationUtil {
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+            .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
             .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 }
