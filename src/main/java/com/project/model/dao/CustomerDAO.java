@@ -16,13 +16,9 @@ public class CustomerDAO {
     @Id
     @Column(name = "customer_id")
     private int id;
-    @JsonProperty("username")
     private String userName;
-    @JsonProperty("firstname")
     private String firstName;
-    @JsonProperty("lastname")
     private String lastName;
-    @JsonProperty("dateofbirht")
     private Date dateOfBirth;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

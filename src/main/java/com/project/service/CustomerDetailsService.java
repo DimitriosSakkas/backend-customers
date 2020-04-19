@@ -4,6 +4,7 @@ import com.project.base.exception.CustomerNotFoundException;
 import com.project.model.dao.CustomerDAO;
 import com.project.repository.CustomerRepository;
 import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ public class CustomerDetailsService implements UserDetailsService {
 
     private final CustomerRepository customerRepository;
 
+    @Autowired
     public CustomerDetailsService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
@@ -27,6 +29,5 @@ public class CustomerDetailsService implements UserDetailsService {
 
         return new User(customerDAO.getUserName(), customerDAO.getPassword(), new ArrayList<>());
     }
-
 
 }

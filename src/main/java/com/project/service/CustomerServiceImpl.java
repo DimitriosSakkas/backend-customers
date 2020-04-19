@@ -24,8 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final Mapper mapper;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository,
-        Mapper mapper) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, Mapper mapper) {
         this.customerRepository = customerRepository;
         this.mapper = mapper;
     }
@@ -33,9 +32,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public CustomerDAO updateCustomer(Principal principal, CustomerDTO customerDTO) {
+        log.info("find the customer to update his data");
         Optional<CustomerDAO> customerDAO = customerRepository
             .findCustomerDAOByUserName(principal.getName());
-        // CustomerDAO dao = customerDAO.orElseThrow(CustomerNotFoundException::new);
         customerRepository.deleteCustomerDAOByUserName(principal.getName());
         return customerRepository
             .save(mapper.convertDtoToDao(customerDTO, customerDAO.get().getId()));
@@ -44,9 +43,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDAO> retrieveCustomerList() {
-        customerRepository.findAll().forEach(customerDAO -> log.info("customer: {}", customerDAO));
+        log.info("start retrieving 3 customers data");
         Pageable paging = PageRequest.of(0, 3, Sort.by("dateOfBirth").descending());
         Page<CustomerDAO> pagedResult = customerRepository.findAll(paging);
+        log.info("all customers: {}", customerRepository.findAll());
         return pagedResult.getContent();
     }
 }

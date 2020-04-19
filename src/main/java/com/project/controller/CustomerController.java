@@ -10,6 +10,7 @@ import com.project.util.AuthorizationUtilImpl;
 import java.security.Principal;
 import java.util.List;
 import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +22,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 public class CustomerController {
 
-    private CustomerService customerService;
-    private AuthorizationUtilImpl authorizationUtil;
-    private CustomerDetailsService customerDetailsService;
-    private PasswordEncoder passwordEncoder;
+    private final CustomerService customerService;
+    private final AuthorizationUtilImpl authorizationUtil;
+    private final CustomerDetailsService customerDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public CustomerController(CustomerService customerService,
@@ -55,6 +57,7 @@ public class CustomerController {
     @PutMapping("/update")
     public ResponseEntity<CustomerDAO> updateCustomer(
         @Valid @RequestBody CustomerDTO customerDTO, Principal principal) {
+        log.info("customer's data have been updated");
         return ResponseEntity.ok(customerService.updateCustomer(principal, customerDTO));
     }
 
