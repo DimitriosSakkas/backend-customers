@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class CustomerExceptionHandler {
 
-    @Autowired
-    private ApiErrorDefinitions apiErrorDefinitions;
+    private final ApiErrorDefinitions apiErrorDefinitions;
     private final HttpHeaders headers;
 
-    public CustomerExceptionHandler() {
+    @Autowired
+    public CustomerExceptionHandler(ApiErrorDefinitions apiErrorDefinitions) {
         this.headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "problem+json"));
+        this.apiErrorDefinitions = apiErrorDefinitions;
     }
 
     @ResponseBody

@@ -1,7 +1,8 @@
 package com.project.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 import java.util.Date;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,15 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerDTO {
 
-    @JsonProperty(required = true)
+    @NotBlank(message = "Please provide a userName")
     private String userName;
-    @JsonProperty(required = true)
+    @NotBlank(message = "Please provide a password")
     private String password;
-    @JsonProperty(required = true)
+    @NotBlank(message = "Please provide a firstName")
     private String firstName;
-    @JsonProperty(required = true)
+    @NotBlank(message = "Please provide a lastName")
     private String lastName;
-    @JsonProperty(required = true)
+    @NotNull
     private Date dateOfBirth;
 
 }
