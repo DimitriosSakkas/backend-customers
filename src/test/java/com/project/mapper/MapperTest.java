@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.project.dao.CustomerDAOMock;
 import com.project.model.dao.CustomerDAO;
 import com.project.model.dto.CustomerDTO;
-import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,28 +21,23 @@ class MapperTest {
     private Mapper mapper;
     @Mock
     private PasswordEncoder passwordEncoder;
-
-    private final static int id = 1;
-    private final static String userName = "username";
-    private final static String firstName = "firstname";
-    private final static String lastName = "lastname";
-    private final Date dateOfBirth = new Date();
-    private final static String password = "password";
+    private CustomerDAOMock customerDAOMock;
 
     @BeforeEach
     void setup() {
         mapper = new Mapper(passwordEncoder);
+        customerDAOMock = new CustomerDAOMock();
     }
 
     @Test
     void convertDtoToDaoPositive() {
         // given
         CustomerDTO dto = createCustomerDTO();
-        CustomerDAO expected = createCustomerDAO();
-        when(passwordEncoder.encode(any())).thenReturn(password);
+        CustomerDAO expected = customerDAOMock.getCustomerDAO();
+        when(passwordEncoder.encode(any())).thenReturn(CustomerDAOMock.password);
 
         // when
-        CustomerDAO actual = mapper.convertDtoToDao(dto, id);
+        CustomerDAO actual = mapper.convertDtoToDao(dto, CustomerDAOMock.id);
 
         // then
         assertEquals(expected, actual);
@@ -50,23 +45,11 @@ class MapperTest {
 
     private CustomerDTO createCustomerDTO() {
         CustomerDTO dto = new CustomerDTO();
-        dto.setDateOfBirth(dateOfBirth);
-        dto.setLastName(lastName);
-        dto.setFirstName(firstName);
-        dto.setPassword(password);
-        dto.setUserName(userName);
+        dto.setDateOfBirth(CustomerDAOMock.dateOfBirth);
+        dto.setLastName(CustomerDAOMock.lastName);
+        dto.setFirstName(CustomerDAOMock.firstName);
+        dto.setPassword(CustomerDAOMock.password);
+        dto.setUserName(CustomerDAOMock.userName);
         return dto;
     }
-
-    private CustomerDAO createCustomerDAO() {
-        CustomerDAO dao = new CustomerDAO();
-        dao.setId(id);
-        dao.setDateOfBirth(dateOfBirth);
-        dao.setLastName(lastName);
-        dao.setFirstName(firstName);
-        dao.setPassword(password);
-        dao.setUserName(userName);
-        return dao;
-    }
-
 }
