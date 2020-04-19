@@ -35,6 +35,7 @@ public class AuthorizationUtilImpl implements AuthorizationUtil {
     }
 
     public boolean validateToken(String authToken) {
+        // TODO: use a pattern to remove catch blocks
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
